@@ -1,0 +1,22 @@
+{
+  "name": "be-natour",
+  "version": "1.0.0",
+  "description": "my first backend project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tetinhxuan/be-natour.git"
+  },
+  "author": "minhquann",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tetinhxuan/be-natour/issues"
+  },
+  "homepage": "https://github.com/tetinhxuan/be-natour#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
