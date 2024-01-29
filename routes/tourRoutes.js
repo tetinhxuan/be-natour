@@ -17,6 +17,14 @@ router.route('/top-5-cheap').get(aliasTopTours, getAllTours);
 router.route('/tour-stats').get(getTourStats);
 router.route('/monthly-plan/:year').get(getMonthlyPlan);
 router.route('/').get(authCOntroller.protect, getAllTours).post(createTour);
-router.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
+router
+  .route('/:id')
+  .get(getTour)
+  .patch(updateTour)
+  .delete(
+    authCOntroller.protect,
+    authCOntroller.restrictTo('admin', 'lead-guide'),
+    deleteTour,
+  );
 
 module.exports = router;
