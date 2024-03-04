@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -12,10 +13,16 @@ const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
 
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 // 1. GLOBEL MIDDLEWARE
+
+// Serving static files
+app.use(express.static(path.join('public')));
 
 // Set security HTTP headers
 app.use(helmet());
@@ -39,8 +46,7 @@ app.use(express.json());
 app.use(mongoSanitize());
 // Data sanitization against XSS
 app.use(xss());
-// Serving static files
-app.use(express.static(`${__dirname}/public`));
+
 // Prevent parameter pollution
 app.use(
   hpp({
@@ -63,7 +69,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes
+app.use('/', viewRouter);
+
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
