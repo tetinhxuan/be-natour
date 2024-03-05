@@ -37,3 +37,6 @@ config.env
 next-env.d.ts
 
 .vscode
+
+# cache
+.cache
