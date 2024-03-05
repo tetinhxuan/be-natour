@@ -15,8 +15,9 @@ const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
   const cookieOptions = {
     maxAge: 90 * 24 * 60 * 60 * 1000,
-    secure: false,
+    secure: true,
     httpOnly: true,
+    sameSite: 'None',
   };
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
   res.cookie('jwt', token, cookieOptions);
@@ -101,6 +102,37 @@ exports.protect = catchAsync(async (req, res, next) => {
   req.user = freshUser;
   next();
 });
+
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
+  if (req.cookies.jwt) {
+    // 2. Verification token
+    const decode = await promisify(jwt.verify)(
+      req.cookies.jwt,
+      process.env.JWT_SECRET,
+    );
+    // 3. Check if user still exists
+    const freshUser = await User.findById(decode.id);
+    if (!freshUser) {
+      return next();
+    }
+    // 4. Check if user changed password after JWT the token was issued
+    if (freshUser.changesPasswordAfter(decode.iat)) {
+      return next();
+    }
+    // Done
+    res.locals.user = freshUser;
+    return next();
+  }
+  next();
+});
+
+exports.logout = (req, res) => {
+  res.cookie('jwt', '', {
+    maxAge: 10 * 1000,
+    httpOnly: true,
+  });
+  res.status(200).json({ status: 'success' });
+};
 
 exports.restrictTo =
   (...roles) =>

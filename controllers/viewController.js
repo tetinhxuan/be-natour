@@ -20,12 +20,27 @@ exports.getTour = catchAsync(async (req, res) => {
 
   res
     .status(200)
-    .set(
-      'Content-Security-Policy',
-      'connect-src https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com',
-    )
+    // .set(
+    //   'Content-Security-Policy',
+    //   'connect-src https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com',
+    // )
     .render('tour', {
       title: tour.name,
       tour,
+    });
+});
+
+exports.getLogin = catchAsync(async (req, res) => {
+  // get tour data from collection
+  // build template
+  // render that template using tour data from 1
+  res
+    .status(200)
+    // .set(
+    //   'Content-Security-Policy',
+    //   'connect-src https://cdnjs.cloudflare.com http://localhost:4000',
+    // )
+    .render('login', {
+      title: 'Login',
     });
 });
