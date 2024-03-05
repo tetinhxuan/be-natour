@@ -39,13 +39,13 @@ exports.getLogin = catchAsync(async (req, res) => {
   // get tour data from collection
   // build template
   // render that template using tour data from 1
-  res
-    .status(200)
-    // .set(
-    //   'Content-Security-Policy',
-    //   'connect-src https://cdnjs.cloudflare.com http://localhost:4000',
-    // )
-    .render('login', {
-      title: 'Login',
-    });
+  res.status(200).render('login', {
+    title: 'Login',
+  });
 });
+
+exports.getAccount = (req, res) => {
+  res.status(200).render('account', {
+    title: 'Your Account',
+  });
+};
