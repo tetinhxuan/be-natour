@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'Email not valid'],
   },
-  photo: String,
+  photo: { type: String, default: 'default.jpg' },
   password: {
     type: String,
     minlength: [8, 'Password must have above 8 characters'],
