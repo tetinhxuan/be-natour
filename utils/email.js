@@ -12,7 +12,15 @@ module.exports = class Email {
   newTransport() {
     if (process.env.NODE_ENV === 'production') {
       // sendgrid
-      return 1;
+      return nodemailer.createTransport({
+        host: 'smtp-relay.brevo.com',
+        port: 587,
+        secure: false,
+        auth: {
+          user: 'iceland10298@gmail.com', // generated ethereal user
+          pass: 'nSTs9GBwv4aKN5hY', // generated ethereal password
+        },
+      });
     }
 
     return nodemailer.createTransport({
