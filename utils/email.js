@@ -17,8 +17,8 @@ module.exports = class Email {
         port: 587,
         secure: false,
         auth: {
-          user: 'iceland10298@gmail.com', // generated ethereal user
-          pass: 'nSTs9GBwv4aKN5hY', // generated ethereal password
+          user: `${process.env.SEND_EMAIL_USERNAME}`, // generated ethereal user
+          pass: `${process.env.SEND_EMAIL_PASSWORD}`, // generated ethereal password
         },
       });
     }
